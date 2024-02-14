@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Player</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        #sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .subsection {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .subsection-content {
+            display: none;
+        }
+
+        video {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #languageDropdown {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <h1 class="mb-4" id="courseTitle">JavaScript Course</h1>
+        <p id="welcomeText"><strong>Welcome to the JavaScript course! This course will introduce you to the fundamentals of JavaScript programming language, covering topics such as variables, functions, loops, arrays, objects, and more.</strong></p>
+        <p><strong>Instructor: John Doe</strong></p>
+        <p><strong>Overview: This course is designed for beginners who want to learn JavaScript from scratch. By the end of this course, you will have a solid understanding of JavaScript basics and be able to build interactive web applications.</strong></p
+
+        <div id="videoPlayerContainer">
+            <video controls id="videoPlayer">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div id="languageDropdown">
+            <label for="languageSelect" id="languageLabel">Select Language:</label>
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="te">Telugu</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+            </select>
+        </div>
+
+        <div class="section" onclick="toggleCollapse('section1')">
+            <span id="section1Title" class="section-title">Section 1</span>
+            <ul class="subsection-content collapse" id="section1">
+                <li class="subsection" onclick="playVideo('video1.mp4'); event.stopPropagation()">Subsection 1.1</li>
+                <li class="subsection" onclick="playVideo('video2.mp4'); event.stopPropagation()">Subsection 1.2</li>
+            </ul>
+        </div>
+        <div class="section" onclick="toggleCollapse('section2')">
+            <span id="section2Title" class="section-title">Section 2</span>
+            <ul class="subsection-content collapse" id="section2">
+                <li class="subsection" onclick="playVideo('video3.mp4'); event.stopPropagation()">Subsection 2.1</li>
+                <li class="subsection" onclick="playVideo('video4.mp4'); event.stopPropagation()">Subsection 2.2</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        const languageStrings = {
+            'en': {
+    'courseTitle': 'JavaScript Course',
+    'welcomeText': 'Welcome to the JavaScript course! This course will introduce you to the fundamentals of JavaScript programming language, covering topics such as variables, functions, loops, arrays, objects, and more.',
+    'instructorText': 'Instructor: John Doe',
+    'overviewText': 'Overview: This course is designed for beginners who want to learn JavaScript from scratch. By the end of this course, you will have a solid understanding of JavaScript basics and be able to build interactive web applications.'
+},
+'es': {
+    'courseTitle': 'Curso de JavaScript',
+    'welcomeText': '¡Bienvenido al curso de JavaScript! Este curso te introducirá en los fundamentos del lenguaje de programación JavaScript, cubriendo temas como variables, funciones, bucles, matrices, objetos y más.',
+    'instructorText': 'Instructor: Juan Pérez',
+    'overviewText': 'Resumen: Este curso está diseñado para principiantes que desean aprender JavaScript desde cero. Al final de este curso, tendrás una comprensión sólida de los conceptos básicos de JavaScript y podrás desarrollar aplicaciones web interactivas.'
+},
+'te': {
+    'courseTitle': 'JavaScript కోర్సు',
+    'welcomeText': 'జావాస్క్రిప్ట్ కోర్సుకు స్వాగతం! ఈ కోర్సు మీకు వేరుగా వేరుగా విషయాలను కవరించి, వేరుగా, ఫంక్షన్లు, లూపులు, అరేలు, ఆబ్జెక్టులు మరియు మరోసారి.',
+    'instructorText': 'అధ్యాపకుడు: అన్ని రకాల ప్రాథమికులకు ఈ కోర్సు నుండి జావాస్క్రిప్ట్ ను నేర్చుకోవడానికి ఈ కోర్సు డిజైన్ చేయబడింది. ఈ కోర్సు ముగింపును ముగిసితే, మీరు జావాస్క్రిప్ట్ బేసిక్స్ గురించి ఒక నిర్దిష్ట అవగాహనం పొందుతారు మరియు ఇంటరాక్టివ్ వెబ్ అనువర్తనాలను కొన్నిస్తుంది.'
+},
+'hi': {
+    'courseTitle': 'जावास्क्रिप्ट कोर्स',
+    'welcomeText': 'जावास्क्रिप्ट कोर्स में आपका स्वागत है! यह कोर्स आपको जावास्क्रिप्ट प्रोग्रामिंग भाषा के मूल सिद्धांतों का परिचय देगा, जैसे कि वेरिएबल्स, फंक्शन्स, लूप्स, एरे, ऑब्जेक्ट्स और अधिक।',
+    'instructorText': 'शिक्षक: जॉन डो',
+    'overviewText': 'अवलोकन: यह कोर्स उन लोगों के लिए डिज़ाइन किया गया है जो जावास्क्रिप्ट को शुरुआत से सीखना चाहते हैं। इस कोर्स के अंत में, आपको जावास्क्रिप्ट की मूल बातें समझ में आ जाएगी और आप इंटरैक्टिव वेब अनुप्रयोग विकसित कर सकेंगे।'
+},
+'ta': {
+    'courseTitle': 'ஜாவாஸ்கிரிப்ட் பாடம்',
+    'welcomeText': 'ஜாவாஸ்கிரிப்ட் பாடத்தில் வரவேற்கின்றோம்! இந்த பாடம் நீங்கள் ஜாவாஸ்கிரிப்ட் நிரல் மொழியின் அடிப்படைகளை உங்களுக்கு அறியும், மாதிரியான உத்திகள், செயல்கள், லூப்கள், அரேக்கள், ஆதரவுகள் மற்றும் மேலும்.',
+    'instructorText': 'ஆசிரியர்: ஜான் டோ',
+    'overviewText': 'கோர்ஸ் படிக்கத் தொடங்கும் போது, இது பொதுவாக ஜாவாஸ்கிரிப்ட் மொழியின் அடிப்படைகளை அறியக் கூடியது முதல் நாடகம். பாடம் முடிவத்தில், ஜாவாஸ்கிரிப்ட் அடிப்படைகளை நல்லாட்சி கொண்டும் சக்திவாய்ந்த பயிற்சி பெறும் உத்தியுடன் நீங்கள் இணைய பயன்படுத்தக்கூடிய வெப் அப்ளிகேஷன்களை உருவாக்க முடியும்.'
+}
+};
+
+
+        function playVideo(videoSrc) {
+            var videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videoSrc;
+            videoPlayer.load();
+            videoPlayer.play();
+        }
+
+        function changeLanguage() {
+            var languageSelect = document.getElementById('languageSelect');
+            var selectedLanguage = languageSelect.value;
+            var strings = languageStrings[selectedLanguage];
+            document.getElementById('courseTitle').textContent = strings.courseTitle;
+            document.getElementById('welcomeText').textContent = strings.welcomeText;
+            document.getElementById('instructorText').textContent = strings.instructorText;
+            document.getElementById('overviewText').textContent = strings.overviewText;
+
+            document.getElementById('languageLabel').textContent = strings.languageLabel;
+            document.querySelectorAll('.section-title').forEach(function (element) {
+                element.textContent = strings[element.id];
+            });
+
+            document.querySelectorAll('#section1 .subsection').forEach(function (element, index) {
+                var subsectionText = strings['section1Subsection' + (index + 1)];
+                element.textContent = subsectionText;
+            });
+
+            document.querySelectorAll('#section2 .subsection').forEach(function (element, index) {
+                var subsectionText = strings['section2Subsection' + (index + 1)];
+                element.textContent = subsectionText;
+            });
+        }
+
+        function toggleCollapse(sectionId) {
+            $('#' + sectionId).toggleClass('show');
+        }
+
+        document.querySelectorAll('.subsection').forEach(function (subsection) {
+            subsection.addEventListener('click', function (event) {
+                var isCompleted = subsection.getAttribute('data-completed');
+                if (!isCompleted) {
+                    subsection.setAttribute('data-completed', 'true');
+                    subsection.classList.add('completed');
+                }
+                playVideo(event.target.getAttribute('data-video'));
+            });
+        });
+    </script>
+</body>
+
+</html>

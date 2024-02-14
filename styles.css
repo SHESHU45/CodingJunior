@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(rgba(28, 10, 52, 0.5), rgba(28, 10, 52, 0.5)), url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.header-text {
+    padding-top: 50px;
+}
+
+.animated-text {
+    animation: fadeInUp 2.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header-image {
+    max-width: 100%;
+    height: 400px;
+    margin-right: 30px;
+}
+
+
+header {
+    padding: 80px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 3em;
+    animation: slideInDown 1.5s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.course-card {
+    transition: transform 0.3s ease;
+    color: black;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+.about-us {
+    background-color: linear-gradient(rgba(28, 10, 52, 0.5), rgba(28, 10, 52, 0.5));
+    padding: 100px 0;
+    text-align: center;
+    margin-top: -50px;
+    position: relative;
+    z-index: 1;
+}
+
+.about-us p {
+    color: #fff;
+}
+
+.contact-us {
+    background-color: linear-gradient(rgba(28, 10, 52, 0.5), rgba(28, 10, 52, 0.5));
+    padding: 100px 0;
+    text-align: center;
+    margin-top: -50px;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-us form {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+footer {
+    background-color: linear-gradient(rgba(28, 10, 52, 0.5), rgba(28, 10, 52, 0.5));
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}

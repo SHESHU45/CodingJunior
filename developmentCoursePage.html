@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Player</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        #sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .subsection {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .subsection-content {
+            display: none;
+        }
+
+        video {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #languageDropdown {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <h1 class="mb-4" id="courseTitle">Web Development Course</h1>
+        <p id="welcomeText"><strong>Welcome to the Web Development course! This course will introduce you to the
+                fundamentals of web development, covering topics such as HTML, CSS, JavaScript, and more.</strong></p>
+        <p><strong>Instructor: John Doe</strong></p>
+        <p><strong>Overview: This course is designed for beginners who want to learn web development from scratch. By
+                the end of this course, you will have a solid understanding of web development basics and be able to
+                create interactive and visually appealing websites.</strong></p>
+
+        <div id="videoPlayerContainer">
+            <video controls id="videoPlayer">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div id="languageDropdown">
+            <label for="languageSelect" id="languageLabel">Select Language:</label>
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="te">Telugu</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+            </select>
+        </div>
+
+        <div class="section" onclick="toggleCollapse('section1')">
+            <span id="section1Title" class="section-title">Section 1</span>
+            <ul class="subsection-content collapse" id="section1">
+                <li class="subsection" onclick="playVideo('video1.mp4'); event.stopPropagation()">Subsection 1.1</li>
+                <li class="subsection" onclick="playVideo('video2.mp4'); event.stopPropagation()">Subsection 1.2</li>
+            </ul>
+        </div>
+        <div class="section" onclick="toggleCollapse('section2')">
+            <span id="section2Title" class="section-title">Section 2</span>
+            <ul class="subsection-content collapse" id="section2">
+                <li class="subsection" onclick="playVideo('video3.mp4'); event.stopPropagation()">Subsection 2.1</li>
+                <li class="subsection" onclick="playVideo('video4.mp4'); event.stopPropagation()">Subsection 2.2</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        const languageStrings = {
+            'en': {
+                'courseTitle': 'Web Development Course',
+                'welcomeText': 'Welcome to the Web Development course! This course will introduce you to the fundamentals of web development, covering topics such as HTML, CSS, JavaScript, responsive design, and more.',
+                'instructorText': 'Instructor: John Doe',
+                'overviewText': 'Overview: This course is designed for beginners who want to start their journey in web development. By the end of this course, you will have a solid understanding of essential web technologies and be able to create interactive and visually appealing websites.'
+            },
+            'es': {
+                'courseTitle': 'Curso de Desarrollo Web',
+                'welcomeText': '¡Bienvenido al curso de Desarrollo Web! Este curso te introducirá en los fundamentos del desarrollo web, cubriendo temas como HTML, CSS, JavaScript, diseño responsive y más.',
+                'instructorText': 'Instructor: Juan Pérez',
+                'overviewText': 'Resumen: Este curso está diseñado para principiantes que desean comenzar su viaje en el desarrollo web. Al final de este curso, tendrás una comprensión sólida de las tecnologías web esenciales y podrás crear sitios web interactivos y visualmente atractivos.'
+            },
+            'te': {
+                'courseTitle': 'వెబ్ అభివృద్ధి కోర్సు',
+                'welcomeText': 'వెబ్ అభివృద్ధి కోర్సుకు స్వాగతం! ఈ కోర్సు మీకు వెబ్ అభివృద్ధికి మొదలుపెట్టడానికి అవసరమైన అంశాలను నేర్చేస్తుంది, సేమానా HTML, CSS, JavaScript, సంరచనాత్మక డిజైన్, మరియు మరిన్ని.',
+                'instructorText': 'అధ్యాపకుడు: అన్ని రకాల ప్రాథమికులకు ఈ కోర్సు నుండి వెబ్ అభివృద్ధిలో అవసరమైనవి నేర్పేస్తుంది. ఈ కోర్సు ముగింపును ముగిసితే, మీరు అవసరమైన వెబ్ ప్రవృత్తిలను అరచేయగలరు మరియు ఇంటరాక్టివ్ మరియు చిత్రాన్ని ఆకర్షణీయంగా రూపొందించగలరు.'
+            },
+            'hi': {
+                'courseTitle': 'वेब डेवलपमेंट कोर्स',
+                'welcomeText': 'वेब डेवलपमेंट कोर्स में आपका स्वागत है! यह कोर्स आपको वेब डेवलपमेंट के मौलिक तत्वों से अवगत कराएगा, जैसे कि HTML, CSS, JavaScript, प्रतिसारी डिजाइन, और अधिक।',
+                'instructorText': 'शिक्षक: जॉन डो',
+                'overviewText': 'अवलोकन: यह कोर्स उन लोगों के लिए डिज़ाइन किया गया है जो वेब डेवलपमेंट में अपना सफर शुरू करना चाहते हैं। इस कोर्स के अंत में, आपको आवश्यक वेब प्रौद्योगिकियों का मजबूत अवधारणा होगी और आप इंटरऐक्टिव और दृश्यमान वेबसाइट्स बना सकेंगे।'
+            },
+            'ta': {
+                'courseTitle': 'வலை அப்பாடல் பாடம்',
+                'welcomeText': 'வலை அப்பாடல் பாடத்தில் வரவேற்கின்றோம்! இந்த பாடம் நீங்கள் வலை அப்பாடலின் மூல தள அடிப்படைகளை உங்களுக்கு அறியும், மாதிரியான உத்திகள், செயல்கள், ஜாவாஸ்கிரிப்டு, பதில்ப்புரியப்பட்ட டிசைன் மற்றும் மேலும்.',
+                'instructorText': 'ஆசிரியர்: ஜான் டோ',
+                'overviewText': 'கோர்ஸ் படிக்கத் தொடங்கும் போது, இது பொதுவாக வலை அப்பாடல் தொகுப்பின் அடிப்படைகளை அறியக் கூடியது முதல் நாடகம். பாடம் முடிவத்தில், உங்களுக்கு உத்தியுடன் மென்பொருளாக இணையப் பயன்படுத்தக்கூடிய இடங்களை உருவாக்க முடியும்.'
+            }
+
+        };
+
+        function playVideo(videoSrc) {
+            var videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videoSrc;
+            videoPlayer.load();
+            videoPlayer.play();
+        }
+
+        function changeLanguage() {
+            var languageSelect = document.getElementById('languageSelect');
+            var selectedLanguage = languageSelect.value;
+            var strings = languageStrings[selectedLanguage];
+            document.getElementById('courseTitle').textContent = strings.courseTitle;
+            document.getElementById('welcomeText').textContent = strings.welcomeText;
+            document.getElementById('instructorText').textContent = strings.instructorText;
+            document.getElementById('overviewText').textContent = strings.overviewText;
+
+            document.getElementById('languageLabel').textContent = strings.languageLabel;
+            document.querySelectorAll('.section-title').forEach(function (element) {
+                element.textContent = strings[element.id];
+            });
+
+            document.querySelectorAll('#section1 .subsection').forEach(function (element, index) {
+                var subsectionText = strings['section1Subsection' + (index + 1)];
+                element.textContent = subsectionText;
+            });
+
+            document.querySelectorAll('#section2 .subsection').forEach(function (element, index) {
+                var subsectionText = strings['section2Subsection' + (index + 1)];
+                element.textContent = subsectionText;
+            });
+        }
+
+        function toggleCollapse(sectionId) {
+            $('#' + sectionId).toggleClass('show');
+        }
+
+        document.querySelectorAll('.subsection').forEach(function (subsection) {
+            subsection.addEventListener('click', function (event) {
+                var isCompleted = subsection.getAttribute('data-completed');
+                if (!isCompleted) {
+                    subsection.setAttribute('data-completed', 'true');
+                    subsection.classList.add('completed');
+                }
+                playVideo(event.target.getAttribute('data-video'));
+            });
+        });
+    </script>
+</body>
+
+</html>
